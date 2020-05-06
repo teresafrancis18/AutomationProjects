@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,32 +19,44 @@ import org.testng.annotations.Test;
 
 public class Automation 
 {
-	//driver variable is declared as a global variable
-	org.openqa.selenium.WebDriver driver;
+	//Driver variable is declared as a global variable
+	WebDriver driver;
 	
-	//Method to complete the test setup before test
+	//Setup the browser for test
 	@BeforeTest
-	@Parameters("url")
-	public void setup(String url)
+	public void browser_setup()
 	{
 	driver=new ChromeDriver();
 	driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
 	driver.manage().window().maximize();
-	driver.get(url);
 	}
 	
-	//Method for executing the test scenario
-	@Test
-	@Parameters("postcode")
-	public void search(String postcode)
+	@Test//Test for checking the application launch
+	@Parameters("url")
+	public void launch_JustEat(String url)
 	{
+		driver.get(url);
+	}
+	
+	//Test for Searching restaurants on providing a post code
+	@Test(dependsOnMethods= {"launch_JustEat"})
+	@Parameters("postcode")
+	public void search_restaurants_postalcode(String postcode)
+	{
+	ArrayList<String> my_area_rest =new ArrayList<String>();
+	//Input the post code to be searched
 	driver.findElement(By.name("postcode")).sendKeys(postcode);
+	//Search button click
 	driver.findElement(By.cssSelector("button[data-test-id='find-restaurants-button']")).click();
+	
+	//To handle the delay in display of results
 	WebDriverWait wait=new WebDriverWait(driver,5);
 	wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@data-test-id='openrestaurants']/section/a")));	
-	//Get top ten restaurants from the list
+	
+	//Logic for retrieving top 10 restaurants from the list displayed
 	List<WebElement> allRestaurants=driver.findElements(By.xpath("//div[@data-test-id='openrestaurants']/section/a"));
 	String click=Keys.chord(Keys.CONTROL,Keys.ENTER);
+	//Checking only the first 10 results to reduce the script execution time
 	for(int i=0;i<10;i++)
 	{
 		allRestaurants.get(i).sendKeys(click);
@@ -54,40 +66,37 @@ public class Automation
 	Set<String> windowNames= driver.getWindowHandles();
 	Iterator<String> iter=windowNames.iterator();
 	iter.next();
+	//Logic to retrieve the restaurant names and post code for first 10 items in list
 	while(iter.hasNext())
 	{
 		driver.switchTo().window(iter.next());
 		restaurant.add(driver.findElement(By.xpath("//div[@class='details']/h1")).getText());
 		postalcode.add(driver.findElement(By.xpath("//div[@class='details']/p[2]/span[3]")).getText());
 	}
-   System.out.println("List of restaurants with postal code: AR51 1AA");
-   int count=0;
+	//Logic to retrieve the restaurants with the required post code
    for(int i=0;i<postalcode.size();i++)
    {
 	   if(postalcode.get(i).equals(postcode))
 	   {
-		   count++;
-		   System.out.println(restaurant.get(i));
-	   }
-		   
+		   my_area_rest.add(restaurant.get(i));
+	   }		   
    }
-   Assert.assertTrue(count>0,"No restaurants with the entered postal code");
-}
+   //To fail the test if there is no matching restaurants
+   Assert.assertTrue(my_area_rest.size()>0,"No restaurants found matching the entered post code!");
+   //Logic to print all retrieved restaurants
+   System.out.println("List of restaurants with postal code:"+postcode);
+   for(int i=0;i<my_area_rest.size();i++)
+   {
+	   System.out.println(my_area_rest.get(i));
+   }
+   }
 	
-	//Method for closing the browsers
+		
+	//To close driver after test execution
 	@AfterTest
 	public void closetest()
 	{
 	driver.quit();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

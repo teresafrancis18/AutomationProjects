@@ -29,6 +29,9 @@
           <suiteXmlFiles>
             <suiteXmlFile>testng.xml</suiteXmlFile>
           </suiteXmlFiles>
+          <systemPropertyVariables>
+          <propertyname>$(webdriver.chrome.driver)</propertyname>
+          </systemPropertyVariables>
         </configuration>
         </plugin>
       </plugins>
