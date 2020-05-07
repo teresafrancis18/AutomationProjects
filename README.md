@@ -5,7 +5,6 @@ A sample Test Suite to demonstrate Selenium test automation of a website using t
  - Maven
 
 # Scenario to be Tested and Approach used for Testing:
-Scenario:
 JUST EAT has a website available at https://www.just-eat.co.uk/ that you can use to find takeaway restaurants in a postcode area.
 
 Feature: Use the website to find restaurants
@@ -19,7 +18,7 @@ Feature: Use the website to find restaurants
 •	Then I should see some restaurants in "AR51 1AA"
 
 # Approach Used for Testing:
-First 10 entries of the retrieved list of restaurants is verified for their postal code and those with exact match of post code is picked assuming that exact match records will be displayed first in the list.
+First 10 entries of the retrieved list of restaurants are verified for their post code and those with exact match of post code is picked assuming that exact match records will be displayed first in the list.
 Test will be failed if none of the first 10 entries have exact match to the post code entered.
 Any restaurants with matching post code after 10th entry is not considered as it should be displayed at top and is not fulfilling the requirement.
 This approach helped in reducing the test execution time considerably when compared to checking all restaurants with postal code AR51 1AA.
@@ -45,7 +44,7 @@ This approach helped in reducing the test execution time considerably when compa
 > mvn clean test -Dwebdriver.chrome.driver="path of chromedriver.exe"
 
 Test Results will be published as .html in target folder in the below path:
-> target/surefire-reports/emailable-report.html. Sample File id provided.
+> target/surefire-reports/emailable-report.html. Sample File is provided.
 
 
 # Test Execution Option 2 - using Eclipse IDE and TestNG
