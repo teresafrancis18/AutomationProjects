@@ -4,7 +4,7 @@
   <test name="Test">
   <parameter name="url" value="https://www.just-eat.co.uk/"/>
   <parameter name="postcode" value="AR51 1AA"/>
-  <parameter name="invalid_postcode" value="12A b23"/>
+  <parameter name="invalid_postcode" value="12A b25"/>
   <classes>
   <class name="automationscripts.JustEatAutomation.Automation">
  </class>
