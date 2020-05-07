@@ -43,7 +43,7 @@ public class Automation
 	@Parameters("postcode")
 	public void search_restaurants_postalcode(String postcode)
 	{
-	ArrayList<String> my_area_rest =new ArrayList<String>();
+	ArrayList<String> my_Area_Rests =new ArrayList<String>();
 	//Input the post code to be searched
 	driver.findElement(By.name("postcode")).sendKeys(postcode);
 	//Search button click
@@ -61,33 +61,33 @@ public class Automation
 	{
 		allRestaurants.get(i).sendKeys(click);
 	}
-	ArrayList<String> restaurant= new ArrayList<String>();
-	ArrayList<String> postalcode=new ArrayList<String>();
-	Set<String> windowNames= driver.getWindowHandles();
-	Iterator<String> iter=windowNames.iterator();
+	ArrayList<String> rest_List= new ArrayList<String>();
+	ArrayList<String> postcode_List=new ArrayList<String>();
+	Set<String> openWindows= driver.getWindowHandles();
+	Iterator<String> iter=openWindows.iterator();
 	iter.next();
 	//Logic to retrieve the restaurant names and post code for first 10 items in list
 	while(iter.hasNext())
 	{
 		driver.switchTo().window(iter.next());
-		restaurant.add(driver.findElement(By.xpath("//div[@class='details']/h1")).getText());
-		postalcode.add(driver.findElement(By.xpath("//div[@class='details']/p[2]/span[3]")).getText());
+		rest_List.add(driver.findElement(By.xpath("//div[@class='details']/h1")).getText());
+		postcode_List.add(driver.findElement(By.xpath("//div[@class='details']/p[2]/span[3]")).getText());
 	}
 	//Logic to retrieve the restaurants with the required post code
-   for(int i=0;i<postalcode.size();i++)
+   for(int i=0;i<postcode_List.size();i++)
    {
-	   if(postalcode.get(i).equals(postcode))
+	   if(postcode_List.get(i).equals(postcode))
 	   {
-		   my_area_rest.add(restaurant.get(i));
+		   my_Area_Rests.add(rest_List.get(i));
 	   }		   
    }
    //To fail the test if there is no matching restaurants
-   Assert.assertTrue(my_area_rest.size()>0,"No restaurants found matching the entered post code!");
+   Assert.assertTrue(my_Area_Rests.size()>0,"No restaurants found matching the entered post code!");
    //Logic to print all retrieved restaurants
    System.out.println("List of restaurants with postal code:"+postcode);
-   for(int i=0;i<my_area_rest.size();i++)
+   for(int i=0;i<my_Area_Rests.size();i++)
    {
-	   System.out.println(my_area_rest.get(i));
+	   System.out.println(my_Area_Rests.get(i));
    }
    }
 	
