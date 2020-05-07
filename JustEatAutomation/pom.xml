@@ -5,14 +5,12 @@
   <artifactId>JustEatAutomation</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
-
   <name>JustEatAutomation</name>
   <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
 <build>
     <pluginManagement>
       <plugins>
@@ -39,7 +37,6 @@
       </plugins>
     </pluginManagement>
   </build>
-  
   <dependencies>
   <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
