@@ -46,6 +46,7 @@ public class Automation
 		Assert.assertEquals(driver.getCurrentUrl(),url);
 	}
 	
+	
 	//Test for Accessibility Testing using AXE Library
 	@Test(dependsOnMethods= {"launch_JustEat"})
 	public void check_Accessibility()
