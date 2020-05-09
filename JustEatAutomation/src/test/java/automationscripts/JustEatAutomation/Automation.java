@@ -47,7 +47,7 @@ public class Automation
 	}
 	
 	
-	//Test for Accessibility Testing using AXE Library
+	//Test for Accessibility Testing of web page using AXE Library
 	@Test(dependsOnMethods= {"launch_JustEat"})
 	public void check_Accessibility()
 	{
