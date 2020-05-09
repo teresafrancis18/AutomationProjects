@@ -50,6 +50,7 @@ public class Automation
 	@Test(dependsOnMethods= {"launch_JustEat"})
 	public void check_Accessibility()
 	{
+		AXE.inject(driver, axe_Script);
 		JSONObject response=new AXE.Builder(driver, axe_Script).analyze();
 		JSONArray violations=response.getJSONArray("violations");
 		if(violations.length()==0)
