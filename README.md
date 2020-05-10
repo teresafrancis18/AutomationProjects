@@ -25,9 +25,10 @@ This approach helped in reducing the test execution time considerably when compa
 
 # Tests included in the Suite
 1. Test Launch of website
-2. Test for Accessibility issues
-3. Test to search restaurants with valid postcode
-4. Test for error message when invalid postcode is entered
+2. Test to search restaurants with valid postcode
+3. Test for error message when invalid postcode is entered
+4. Test to search with restaurant name
+5. Test for Accessibility issues
 
 
 # Setup Instructions
