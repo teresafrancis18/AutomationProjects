@@ -46,8 +46,7 @@ This approach helped in reducing the test execution time considerably when compa
 
 Test Results will be published as .html in target folder in the below path:
 > target/surefire-reports/emailable-report.html
-Sample report is available at below URL:
-https://teresafrancis18.github.io/AutomationProjects/emailable-report.html
+Sample report emailable-report.html is uploaded 
 
 # Test Execution Option 2 - using Eclipse IDE and TestNG
 Pre-requisite:
