@@ -5,6 +5,7 @@
   <parameter name="url" value="https://www.just-eat.co.uk/"/>
   <parameter name="postcode" value="AR51 1AA"/>
   <parameter name="invalid_postcode" value="12A b25"/>
+  <parameter name="restaurant_Name" value="pizza hut"/>
   <classes>
   <class name="automationscripts.JustEatAutomation.Automation"/>
     <class name="automationscripts.JustEatAutomation.AccessibilityTest"/>

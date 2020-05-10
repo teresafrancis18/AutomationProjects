@@ -111,17 +111,17 @@ public class Automation
    }
 	
 	@Test(priority=4)
-	public void search_restaurant_name()
+	@Parameters("restaurant_Name")
+	public void search_restaurant_name(String restaurant_Name)
 	{
-		driver.findElement(By.id("dish-search")).sendKeys("pizza hut");
+		String rest_Name;
+		driver.findElement(By.id("dish-search")).sendKeys(restaurant_Name);
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		List<WebElement> rests_ByName=driver.findElements(By.xpath("//div[@data-test-id='openrestaurants']/section/a"));
+		List<WebElement> rests_ByName=driver.findElements(By.xpath("//div[@data-test-id='openrestaurants']/section"));
 		for(int i=0;i<rests_ByName.size();i++)
 		{
-			String rest_Name=rests_ByName.get(i).findElement(By.xpath("//div[@class='c-listing-item-info']/h3")).getText();
-			System.out.println("Matching res");
-			System.out.println(rest_Name);
-			Assert.assertTrue(rest_Name.toLowerCase().contains("pizza hut"), "Search results are incorrect");
+			rest_Name=rests_ByName.get(i).findElement(By.xpath("//a[@data-test-id='restaurant_info']/div[3]/h3")).getText();
+			Assert.assertTrue(rest_Name.toLowerCase().contains(restaurant_Name),"Search is displaying incorrect results");
 		}
 		
 	}
