@@ -110,6 +110,7 @@ public class Automation
    }
    }
 	
+	//Test to search with Restaurant name
 	@Test(priority=4)
 	@Parameters("restaurant_Name")
 	public void search_restaurant_name(String restaurant_Name)

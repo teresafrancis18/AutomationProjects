@@ -12,7 +12,7 @@ public class AccessibilityTest
 	WebDriver driver;
 	URL axe_Script=Automation.class.getResource("axe.min.js");
 
-	   
+	   //Test for checking accessibility of the web page
 		@Test
 		public void check_Accessibility()
 		{
