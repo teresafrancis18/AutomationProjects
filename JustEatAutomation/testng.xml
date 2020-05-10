@@ -6,8 +6,8 @@
   <parameter name="postcode" value="AR51 1AA"/>
   <parameter name="invalid_postcode" value="12A b25"/>
   <classes>
-  <class name="automationscripts.JustEatAutomation.Automation">
- </class>
+  <class name="automationscripts.JustEatAutomation.Automation"/>
+    <class name="automationscripts.JustEatAutomation.AccessibilityTest"/>
   </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

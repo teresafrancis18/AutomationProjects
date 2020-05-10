@@ -1,13 +1,9 @@
 package automationscripts.JustEatAutomation;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -20,15 +16,12 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.deque.axe.AXE;
-
 
 public class Automation 
 {
 	//Driver variable is declared as a global variable
 	WebDriver driver;
-	URL axe_Script=Automation.class.getResource("axe.min.js");
-	
+
 	//Setup the browser for test
 	@BeforeTest
 	public void browser_setup()
@@ -38,7 +31,8 @@ public class Automation
 	driver.manage().window().maximize();
 	}
 	
-	@Test//Test for checking the URL launch
+	//Test for checking the URL launch
+	@Test(priority=1)
 	@Parameters("url")
 	public void launch_JustEat(String url)
 	{
@@ -46,27 +40,8 @@ public class Automation
 		Assert.assertEquals(driver.getCurrentUrl(),url);
 	}
 	
-	
-	//Test for Accessibility Testing of web page using AXE Library
-	@Test(dependsOnMethods= {"launch_JustEat"})
-	public void check_Accessibility()
-	{
-		AXE.inject(driver, axe_Script);
-		JSONObject response=new AXE.Builder(driver, axe_Script).analyze();
-		JSONArray violations=response.getJSONArray("violations");
-		if(violations.length()==0)
-		{
-			Assert.assertTrue(true,"No violations found");
-		}
-		else
-		{
-			AXE.writeResults("AccessibilityResponse", response);
-			Assert.assertTrue(false, AXE.report(violations));
-		}
-	}
-	
 	//Test to verify whether error message is displayed when incorrect post code is entered
-	@Test(dependsOnMethods= {"launch_JustEat"})
+	@Test(priority=2)
 	@Parameters("invalid_postcode")
 	public void check_invalid_postcode(String postcode)
 	{
@@ -74,15 +49,17 @@ public class Automation
 		//Search button click
 		driver.findElement(By.cssSelector("button[data-test-id='find-restaurants-button']")).click();
 		if(driver.findElement(By.id("errorMessage")).isDisplayed())
+		{
 			Assert.assertTrue(true,"Error message not displayed when invalid postcode is entered ");
+		}
+		driver.findElement(By.name("postcode")).clear();
 	}
 	
 	//Test for Searching restaurants on providing a post code
-	@Test(dependsOnMethods= {"launch_JustEat"})
+	@Test(priority=3)
 	@Parameters("postcode")
 	public void search_restaurants_postalcode(String postcode)
 	{
-	ArrayList<String> my_Area_Rests =new ArrayList<String>();
 	driver.findElement(By.name("postcode")).clear();
 	//Input the post code to be searched
 	driver.findElement(By.name("postcode")).sendKeys(postcode);
@@ -103,9 +80,10 @@ public class Automation
 	}
 	ArrayList<String> rest_List= new ArrayList<String>();
 	ArrayList<String> postcode_List=new ArrayList<String>();
+	ArrayList<String> my_Area_Rests =new ArrayList<String>();
 	Set<String> openWindows= driver.getWindowHandles();
 	Iterator<String> iter=openWindows.iterator();
-	iter.next();
+	String parent=iter.next();
 	//Logic to retrieve the restaurant names and post code for first 10 items in list
 	while(iter.hasNext())
 	{
@@ -113,6 +91,7 @@ public class Automation
 		rest_List.add(driver.findElement(By.xpath("//div[@class='details']/h1")).getText());
 		postcode_List.add(driver.findElement(By.xpath("//div[@class='details']/p[2]/span[3]")).getText());
 	}
+	driver.switchTo().window(parent);
 	//Logic to retrieve the restaurants with the required post code
    for(int i=0;i<postcode_List.size();i++)
    {
@@ -131,12 +110,27 @@ public class Automation
    }
    }
 	
+	@Test(priority=4)
+	public void search_restaurant_name()
+	{
+		driver.findElement(By.id("dish-search")).sendKeys("pizza hut");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		List<WebElement> rests_ByName=driver.findElements(By.xpath("//div[@data-test-id='openrestaurants']/section/a"));
+		for(int i=0;i<rests_ByName.size();i++)
+		{
+			String rest_Name=rests_ByName.get(i).findElement(By.xpath("//div[@class='c-listing-item-info']/h3")).getText();
+			System.out.println("Matching res");
+			System.out.println(rest_Name);
+			Assert.assertTrue(rest_Name.toLowerCase().contains("pizza hut"), "Search results are incorrect");
+		}
 		
+	}
 	//To close driver after test execution
 	@AfterTest
-	public void closetest()
+	public void teardown()
 	{
 	driver.quit();
 	}
+
 	
 }
