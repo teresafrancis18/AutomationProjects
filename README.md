@@ -44,8 +44,9 @@ This approach helped in reducing the test execution time considerably when compa
 2. Enter the maven instruction as shown below
 > mvn clean test -Dwebdriver.chrome.driver="path of chromedriver.exe"
 
-Test Results will be published as .html in target folder in the below path:
+After execution, Test Results will be published as .html in target folder in the below path:
 > target/surefire-reports/emailable-report.html
+
 Sample report emailable-report.html is uploaded 
 
 # Test Execution Option 2 - using Eclipse IDE and TestNG
